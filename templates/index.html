@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Car Price Prediction</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+ <div class="login">
+	<h1>Car Price Prediction</h1>
+     <h3> Enter the following values to predict the price of your vehicle</h3>
+
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict')}}"method="post">
+            <input type="text" name="Brand" placeholder="Brand" required="required" />
+	<input type="text" name="Serie" placeholder="Serie" required="required" />
+	<input type="text" name="Color" placeholder="Color" required="required" />
+    	<input type="text" name="Year" placeholder="Year" required="required" />
+        <input type="text" name="KM" placeholder="KM" required="required" />
+	<input type="text" name="HP" placeholder="HP" required="required" />
+	<input type="text" name="CC" placeholder="CC" required="required" />
+	<input type="text" name="Galeriden" placeholder="Galeriden" required="required" />
+        <input type="text" name="GARANTI" placeholder="Warranty" required="required" />
+	<input type="text" name="Onden" placeholder="Front" required="required" />
+        <input type="text" name="Otomatik" placeholder="Oto" required="required" />
+	<input type="text" name="Yarı" placeholder="Semi-Oto" required="required" />
+        <input type="text" name="LPG" placeholder="LPG" required="required" />
+
+
+        <button type="submit" class="btn">Predict</button>
+    </form>
+
+   <br>
+   <br>
+   {{ prediction_text }}
+
+ </div>
+
+
+</body>
+</html>
