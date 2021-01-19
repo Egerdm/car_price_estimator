@@ -24,10 +24,6 @@ le = preprocessing.LabelEncoder()
 df[['Brand', 'Serie', 'Color']] = df[['Brand', 'Serie', 'Color']].apply(le.fit_transform)
 # df['city'] = le.fit(df['city'])
 
-import numpy as np
-from flask import Flask, render_template, request
-import pickle  # Initialize the flask App
-
 
 X = df.loc[:, ['Brand', 'Serie', 'Color', 'Year', 'KM', 'CC', 'HP',
                'Galeriden', 'GARANTI',
@@ -65,47 +61,33 @@ print("Accuracy on Traing set: ",rf_reg.score(X_train,y_train))
 print("Accuracy on Testing set: ",rf_reg.score(X_test,y_test))
 '''
 # Pickle serializes objects so they can be saved to a file, and loaded in a program again later on.
-
-# import libraries
+#import libraries
 import numpy as np
-from flask import Flask, render_template, request
-import pickle  # Initialize the flask App
+from flask import Flask, request, jsonify, render_template
+import pickle
 
+#Initialize the flask App
 app = Flask(__name__)
-pickle.dump(rf_reg, open('model.pkl','wb'))
+model = pickle.load(open('model.pkl', 'rb'))
 
-# default page of our web-app
+#default page of our web-app
 @app.route('/')
 def home():
     return render_template('index.html')
 
-
-
-
-
-# To use the predict button in our web-app
-@app.route('/predict', methods=['POST'])
+#To use the predict button in our web-app
+@app.route('/predict',methods=['POST'])
 def predict():
-    #For rendering results on HTML GUI
+    '''
+    For rendering results on HTML GUI
+    '''
     int_features = [float(x) for x in request.form.values()]
     final_features = [np.array(int_features)]
     prediction = model.predict(final_features)
-    output = round(prediction[0], 2)
-    return render_template('index.html', prediction_text='CO2    Emission of the vehicle is :{}'.format(output))
 
+    output = round(prediction[0], 2)
+
+    return render_template('index.html', prediction_text='Estimated price of your vehicle is :{}'.format(output))
 
 if __name__ == "__main__":
     app.run(debug=True)
-'''
-try:
-    import dill as pickle
-except ImportError:
-    import pickle
-
-pickle.dump(rf_reg, open('model.pkl','wb'))
-
-
-#Loading model to compare the results
-model = pickle.load(open('model.pkl','rb'))
-print(model.predict([[2.6, 8, 10.1]]))
-'''
