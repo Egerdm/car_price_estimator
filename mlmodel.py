@@ -28,8 +28,6 @@ import numpy as np
 from flask import Flask, render_template, request
 import pickle  # Initialize the flask App
 
-output = open('Brand_Encoder.pkl', 'wb')
-pickle.dump(le, output)
 
 X = df.loc[:, ['Brand', 'Serie', 'Color', 'Year', 'KM', 'CC', 'HP',
                'Galeriden', 'GARANTI',
@@ -74,7 +72,7 @@ from flask import Flask, render_template, request
 import pickle  # Initialize the flask App
 
 app = Flask(__name__)
-model = pickle.load(open('model.pkl', 'rb'))
+pickle.dump(rf_reg, open('model.pkl','wb'))
 
 # default page of our web-app
 @app.route('/')
